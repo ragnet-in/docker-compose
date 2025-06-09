@@ -1,0 +1,56 @@
+name: Deploy on EC2 Self-Hosted Runner
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    # env:
+    #   POSTGRES_CONNECTION_STRING: ${{ secrets.POSTGRES_CONNECTION_STRING }}
+    #   JWT_SECRET: ${{ secrets.JWT_SECRET }}
+    #   DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+    #   DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+    #   DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+    #   DISCORD_REDIRECT_URI: ${{ secrets.DISCORD_REDIRECT_URI }}
+    #   FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+    #   RAG_API_URL: ${{ secrets.RAG_API_URL }}
+    #   INFRA_RAG_KEY: ${{ secrets.INFRA_RAG_KEY }}
+    #   GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+    #   GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      # GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Show Docker version (debug)
+        run: docker --version
+
+      # - name: Show Docker Compose version (debug)
+      #   run: docker-compose --version
+
+      # - name: Create .env file from GitHub secrets
+      #   run: |
+      #     echo "POSTGRES_CONNECTION_STRING=${POSTGRES_CONNECTION_STRING}" >> .env
+      #     echo "JWT_SECRET=${JWT_SECRET}" >> .env
+      #     echo "DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}" >> .env
+      #     echo "DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}" >> .env
+      #     echo "DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET}" >> .env
+      #     echo "DISCORD_REDIRECT_URI=${DISCORD_REDIRECT_URI}" >> .env
+      #     echo "FRONTEND_URL=${FRONTEND_URL}" >> .env
+      #     echo "RAG_API_URL=${RAG_API_URL}" >> .env
+      #     echo "INFRA_RAG_KEY=${INFRA_RAG_KEY}" >> .env
+      #     echo "GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}" >> .env
+      #     echo "GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}" >> .env
+      #     echo "GEMINI_API_KEY=${GEMINI_API_KEY}" >> .env
+      #     echo 1
+          
+      # - name: Pull latest images
+      #   run: docker-compose pull
+
+      # - name: Start containers
+      #   run: docker-compose up -d
