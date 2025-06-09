@@ -48,7 +48,7 @@ jobs:
           echo "GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}" >> .env
           echo "GEMINI_API_KEY=${GEMINI_API_KEY}" >> .env
           echo 1
-          echo ${FRONTEND_URL}
+          # echo ${FRONTEND_URL}
           
       - name: Pull latest images
         run: docker-compose pull
