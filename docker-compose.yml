@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    image: parthajmera132/ragnet-backend:latest
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - ragnet
+
+  db:
+    image: ankane/pgvector:v0.5.1
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  ragnet:
+    image: parthajmera132/ragnet-engine:latest
+    volumes:
+      - /Users/parthajmera/Desktop/work/ragnet/rag/graphDB:/app/graphDB
+      - /Users/parthajmera/Desktop/work/ragnet/rag:/app
+    env_file:
+      - .env
+
+volumes:
+  postgres_data: 
+  graphDB:
