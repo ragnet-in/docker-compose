@@ -3,11 +3,11 @@ name: Deploy on EC2 Self-Hosted Runner
 on:
   push:
     branches:
-      - production  
+      - main  
 
 jobs:
   deploy:
-    runs-on: ec-2
+    runs-on: self-hosted
 
     env:
       POSTGRES_CONNECTION_STRING: ${{ secrets.POSTGRES_CONNECTION_STRING }}
@@ -47,10 +47,12 @@ jobs:
           echo "GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}" >> .env
           echo "GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}" >> .env
           echo "GEMINI_API_KEY=${GEMINI_API_KEY}" >> .env
-          echo ${FRONTEND_URL}
           
       - name: Pull latest images
         run: docker-compose pull
+
+      - name: Stop running containers
+        run: docker-compose down
 
       - name: Start containers
         run: docker-compose up -d
