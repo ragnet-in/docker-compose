@@ -1,6 +1,24 @@
 version: '3.8'
 
 services:
+  traefik:
+    image: traefik:v2.10
+    command:
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=team@ragnet.in"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80" # HTTP
+      - "443:443" # HTTPS
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "traefik_letsencrypt:/letsencrypt"
+
   app:
     image: parthajmera132/ragnet-backend:latest
     ports:
@@ -10,6 +28,12 @@ services:
     depends_on:
       # - db
       - ragnet
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`api.ragnet.in`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=myresolver"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"
 
   # db:
   #   image: ankane/pgvector:v0.5.1
@@ -23,11 +47,12 @@ services:
   ragnet:
     image: parthajmera132/ragnet-engine:latest
     volumes:
-      - /Users/parthajmera/Desktop/work/ragnet/rag/graphDB:/app/graphDB
+      - ./graphDB:/app/graphDB
     env_file:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
 
 volumes:
-  postgres_data: 
+  # postgres_data: 
+  traefik_letsencrypt:
