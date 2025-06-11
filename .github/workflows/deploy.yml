@@ -22,6 +22,8 @@ jobs:
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      NODE_TLS_REJECT_UNAUTHORIZED: ${{ secrets.NODE_TLS_REJECT_UNAUTHORIZED }}
+
 
     steps:
       - name: Checkout repository
@@ -47,6 +49,7 @@ jobs:
           echo "GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}" >> .env
           echo "GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}" >> .env
           echo "GEMINI_API_KEY=${GEMINI_API_KEY}" >> .env
+          echo "NODE_TLS_REJECT_UNAUTHORIZED=${NODE_TLS_REJECT_UNAUTHORIZED}" >> .env
           
       - name: Pull latest images
         run: docker-compose pull
