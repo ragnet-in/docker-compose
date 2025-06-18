@@ -13,4 +13,4 @@ jobs:
       - name: Remove dangling Docker images (tagged <none>)
         run: |
           echo "Removing dangling Docker images..."
-          docker images -f "dangling=true" -q | xargs -r docker rmi
+          sudo docker images -f "dangling=true" -q | sudo xargs -r docker rmi || echo "No dangling images to remove"
