@@ -1,0 +1,16 @@
+name: Cleanup Dangling Docker Images
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Runs every 6 hours
+  workflow_dispatch:       # Allows manual trigger
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Remove dangling Docker images (tagged <none>)
+        run: |
+          echo "Removing dangling Docker images..."
+          docker images -f "dangling=true" -q | xargs -r docker rmi
