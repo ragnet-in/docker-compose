@@ -17,7 +17,7 @@ services:
       - "443:443" # HTTPS
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "traefik_letsencrypt:/letsencrypt"
+      - "letsencrypt:/letsencrypt"
 
   app:
     image: parthajmera132/ragnet-backend:latest
@@ -52,7 +52,9 @@ services:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
+    labels:
+      - "traefik.enable=false"
 
 volumes:
   # postgres_data: 
-  traefik_letsencrypt:
+  letsencrypt:
